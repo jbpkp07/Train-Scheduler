@@ -1,7 +1,14 @@
 "use strict";
 /* global Model, Utility */
 
+class ViewController {
 
+    constructor() {
+
+        
+    }
+
+}
 
 
 
