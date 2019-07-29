@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-    <title>Train-Scheduler v1.0.1</title>
+    <title>Train-Scheduler v1.0.2</title>
 
     <link rel="shortcut icon" type="image/x-icon" href="./assets/images/favicon.ico">
     <link rel="prefetch" href="https://fonts.googleapis.com/css?family=Roboto&display=swap" as="style">
@@ -25,26 +25,7 @@
 
     <div id="scheduleTBLWrapper">
         <div id="schedule">Schedule</div>
-        <table id="scheduleTBL" class="cell-border hover">
-            <!-- <thead>
-                <tr>
-                    <th>Train Name</th>
-                    <th>Destination</th>
-                    <th>Frequency (min)</th>
-                    <th>Next Arrival</th>
-                    <th>Minutes Away</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Trenton Express</td>
-                    <td>Trenton, NJ</td>
-                    <td>30</td>
-                    <td>12:30</td>
-                    <td>7</td>
-                </tr>
-            </tbody> -->
-        </table>
+        <table id="scheduleTBL" class="cell-border hover"></table>
     </div>
 
     <div id="addTrain">Add Train</div>
@@ -59,6 +40,8 @@
         </div>
     </form> 
 
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.0.4/firebase-database.js"></script>
     <script src="./assets/javascript/datatables.js"></script>
     <script src="./assets/javascript/moment.js"></script>
     <script src="./assets/javascript/Utility.js"></script>

@@ -66,7 +66,8 @@ class Utility {
 
         const isFreqNumber = typeof frequency === 'number';
 
-        if (!isFreqNumber || isNaN(frequency) || frequency <= 0) {
+        //Check on 1440 minutes is because this is over a day, so gives confusing results
+        if (!isFreqNumber || isNaN(frequency) || frequency <= 0 || frequency > 1440) {
 
             return true;
         }
