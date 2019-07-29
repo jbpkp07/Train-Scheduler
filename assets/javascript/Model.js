@@ -1,11 +1,166 @@
 "use strict";
-/* global Utility */
+/* global Utility, moment */
+
+class Model {
+
+    constructor() {
+
+        this._trains = [];
+    }
+
+    addTrain(name, dest, time, freq) {
+
+        let newTrain = new Train(name, dest, time, freq);
+
+        if (newTrain.isValid()) {
+
+            this._trains.push(newTrain);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    getTrainsJSON() {
+
+        let trainsJSON = [];
+
+        for (let trainOBJ of this._trains) {
+
+            trainsJSON.push(trainOBJ.getTrainJSON());
+        }
+
+        return trainsJSON;
+    }
+
+    getLastTrainJSON() {
+
+        return this._trains[this._trains.length - 1].getTrainJSON();
+    }
+}
+
+
+class Train {
+
+    constructor(name, dest, time, freq) {
+
+        this._trainName = name;
+        this._destination = dest;
+        this._firstTime = time;
+        this._frequency = freq;
+
+        this._isValid = false;
+
+        this.validate();
+    }
+
+    validate() {
+
+        this._isValid = false;
+
+        if (Utility.isTrainNameInValid(this._trainName)) {
+
+            return;
+        }
+
+        if (Utility.isDestinationInValid(this._destination)) {
+
+            return;
+        }
+
+        if (Utility.isFirstTimeInValid(this._firstTime)) {
+
+            return;
+        }
+
+        if (Utility.isFrequencyInValid(this._frequency)) {
+
+            return;
+        }
+
+        //parse it as an Integer now (passed validation already)
+        this._frequency = parseInt(this._frequency);
+
+        this._isValid = true;
+    }
+
+    isValid() {
+
+        return this._isValid;
+    }
+
+    getTrainJSON() {
+
+        let train = [];
+
+        train.push(this._trainName);
+        train.push(this._destination);
+        train.push(this._frequency);
+
+        // let nextArrival = moment(this._firstTime, "HH:mm", true).fromNow();
 
 
 
 
+        // // First Time (pushed back 1 year to make sure it comes before current time)
+        // const firstTimeConverted = moment(this._firstTime, "HH:mm").subtract(1, "years");
+        // console.log(firstTimeConverted);
+
+        // // Current Time
+        // const currentTime = moment();
+        // console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm"));
+
+        // // Difference between the times
+        // const diffTime = moment().diff(moment(firstTimeConverted), "minutes");
+        // console.log("DIFFERENCE IN TIME: " + diffTime);
+
+        // // Time apart (remainder)
+        // const tRemainder = diffTime % this._frequency;
+        // console.log(tRemainder);
+
+        // // Minute Until Train
+        // const tMinutesTillTrain = this._frequency - tRemainder;
+        // console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+
+        // // Next Train
+        // const nextTrain = moment().add(tMinutesTillTrain, "minutes");
+        // console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
 
 
+                // First Time (pushed back 1 year to make sure it comes before current time)
+                const firstTimeConverted = moment(this._firstTime + ":00", "HH:mm:ss").subtract(1, "years");
+                console.log("FIRST TIME CONVERTED: " + firstTimeConverted);
+        
+                // Current Time
+                const currentTime = moment();
+                console.log("CURRENT TIME: " + moment(currentTime).format("HH:mm:ss"));
+        
+                // Difference between the times
+                const diffTime = moment().diff(moment(firstTimeConverted), "mm:ss");
+                console.log("DIFFERENCE IN TIME: " + diffTime);
+        
+                // Time apart (remainder)
+                const tRemainder = diffTime % (this._frequency * 60 * 1000);
+                console.log("REMAINEDER: " + tRemainder);
+        
+                // Minute Until Train
+                const tMinutesTillTrain = (this._frequency * 60 * 1000) - tRemainder;
+                console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
+        
+                // Next Train
+                const nextTrain = moment().add(tMinutesTillTrain, "milliseconds");
+                console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+
+
+
+
+        train.push(moment(nextTrain).format("HH:mm"));
+        train.push(moment(tMinutesTillTrain).format("HH:mm:ss"));
+
+        return train;
+    }
+}
 
 
 
@@ -129,7 +284,7 @@
 //                     this.unSelectAllTopics();
 
 //                     topic.selectTopic();
-                
+
 //                     dispatchEvent(new CustomEvent("renderAllContent"));
 //                 }  
 //             });

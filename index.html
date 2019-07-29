@@ -26,7 +26,7 @@
     <div id="scheduleTBLWrapper">
         <div id="schedule">Schedule</div>
         <table id="scheduleTBL" class="cell-border hover">
-            <thead>
+            <!-- <thead>
                 <tr>
                     <th>Train Name</th>
                     <th>Destination</th>
@@ -43,7 +43,7 @@
                     <td>12:30</td>
                     <td>7</td>
                 </tr>
-            </tbody>
+            </tbody> -->
         </table>
     </div>
 
@@ -60,19 +60,14 @@
     </form> 
 
     <script src="./assets/javascript/datatables.js"></script>
+    <script src="./assets/javascript/moment.js"></script>
     <script src="./assets/javascript/Utility.js"></script>
-    <script src="./assets/javascript/ViewController.js"></script>
     <script src="./assets/javascript/Model.js"></script>
-    <script src="./assets/javascript/GifTastic.js"></script>
+    <script src="./assets/javascript/ViewController.js"></script>
+    <script src="./assets/javascript/TrainScheduler.js"></script>
 
     <script>
         $(document).ready(() => {
-
-            $('#scheduleTBL').DataTable({
-
-                "info": false,
-                "pagingType": "numbers"
-            });
 
             let launcher = new TrainScheduler();
 

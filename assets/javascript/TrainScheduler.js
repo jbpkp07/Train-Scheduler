@@ -9,7 +9,7 @@ class TrainScheduler {
     }
 
     startProgram() {
-
+    
         this._viewController = new ViewController();
     }
 }

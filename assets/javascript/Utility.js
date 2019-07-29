@@ -1,4 +1,5 @@
 "use strict";
+/* global moment */
 
 class Utility {
 
@@ -17,6 +18,60 @@ class Utility {
         };
 
         return new Promise(poll);
+    }
+
+    static isTrainNameInValid(trainName) {
+
+        if (trainName.length === 0) {
+
+            return true;
+        }
+        
+        return false;
+    }
+
+    static isDestinationInValid(destination) {
+
+        if (destination.length === 0) {
+
+            return true;
+        }
+        
+        return false;
+    }
+
+    static isFirstTimeInValid(firstTime) {
+
+         // @ts-ignore
+         const isTimeValid = moment(firstTime, "HH:mm", true).isValid();
+
+         if (!isTimeValid) {
+ 
+             return true;
+         }
+
+         return false;
+    }
+
+    static isFrequencyInValid(frequency) {
+
+        //check if all characters are numbers as parseInt() will generate a number if the first charaters in a string are numbers (even if followed with letters)
+        if (isNaN(frequency)) {  
+
+            return true;
+        }
+
+        //parse it as an Integer now
+        frequency = parseInt(frequency);
+
+        const isFreqNumber = typeof frequency === 'number';
+
+        if (!isFreqNumber || isNaN(frequency) || frequency <= 0) {
+
+            return true;
+        }
+
+        return false;
     }
 }
 
