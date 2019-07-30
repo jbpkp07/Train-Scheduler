@@ -19,7 +19,8 @@ class ViewController {
                 { title: "Destination" },
                 { title: "Frequency (min)" },
                 { title: "Next Arrival" },
-                { title: "Time To Arrival" }
+                { title: "Time To Arrival" },
+                { title: "Remove" }
             ]
         });
 
@@ -122,5 +123,17 @@ class ViewController {
 
             }, pollFrequencyMS);
         }
+    }
+
+    static removeTrain(key) {
+
+        var event = new CustomEvent("removeBtnClicked", {
+
+            detail: {
+                databaseKey: key
+            }
+        });
+
+        dispatchEvent(event);
     }
 }

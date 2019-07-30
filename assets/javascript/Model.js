@@ -48,6 +48,7 @@ class FireBase {
         this._trains = [];
 
         const config = {
+
             apiKey: "AIzaSyA8ittWnw7U7K8a7Rgsgz7T3Owi6XCoqWw",
             authDomain: "fir-test-ad074.firebaseapp.com",
             databaseURL: "https://fir-test-ad074.firebaseio.com",
@@ -63,6 +64,12 @@ class FireBase {
         this._database = firebase.initializeApp(config).database();
 
         this.syncWithDatabase();
+
+        addEventListener("removeBtnClicked", (event) => {
+
+            // @ts-ignore
+            this.removeTrain(event.detail.databaseKey);
+        });
     }
 
     addTrain(newTrain) {
@@ -77,13 +84,22 @@ class FireBase {
         );
     }
 
+    removeTrain(key) {
+
+        this._database.ref(this._databaseName).child(key).remove();
+
+        this._trains = this._trains.filter(train => train._databaseKey !== key);
+    }
+
     syncWithDatabase() {
 
         this._database.ref(this._databaseName).on("child_added", (snapshot) => {
 
             const newTrainJSON = snapshot.val();
-
+     
             let newTrain = new Train(newTrainJSON.trainName, newTrainJSON.destination, newTrainJSON.firstTime, newTrainJSON.frequency);
+
+            newTrain.setDatabaseKey(snapshot.key);
 
             this._trains.push(newTrain);
 
@@ -104,6 +120,8 @@ class Train {
         this._destination = dest;
         this._firstTime = time;
         this._frequency = freq;
+
+        this._databaseKey = null;
 
         this._isValid = false;
 
@@ -145,6 +163,14 @@ class Train {
         return this._isValid;
     }
 
+    setDatabaseKey(key) {
+
+        if (this._databaseKey === null) {
+
+            this._databaseKey = key.toString();
+        }
+    }
+
     getTrainJSON() {
 
         let train = [];
@@ -170,11 +196,16 @@ class Train {
         // @ts-ignore
         const timeToArrivalFormatted = moment.utc(timeToArrivalMS).format("HH:mm:ss");
 
+        const databaseKeyString = "\'" + this._databaseKey + "\'";
+
+        const removeBtn = '<button class="removeBTN" onclick="ViewController.removeTrain(' + databaseKeyString + ');">Remove</button>';
+
         train.push(this._trainName);
         train.push(this._destination);
         train.push(this._frequency);
         train.push(nextArrivalFormatted);
         train.push(timeToArrivalFormatted);
+        train.push(removeBtn);
 
         return train;
     }
